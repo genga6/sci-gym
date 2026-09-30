@@ -9,23 +9,19 @@ sudo apt-get install -y --no-install-recommends \
   build-essential pkg-config graphviz libgraphviz-dev
 sudo rm -rf /var/lib/apt/lists/*
 
-echo "==> uv"
-if ! command -v uv >/dev/null 2>&1; then
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-fi
-export PATH="$HOME/.local/bin:$PATH"
-
 echo "==> Claude Code"
+# The ~/.claude volume is created root-owned on first mount -> hand it to the user.
+sudo chown -R "$(id -u):$(id -g)" "$HOME/.claude" 2>/dev/null || true
+# Native installer puts `claude` in ~/.local/bin (added to PATH via remoteEnv).
+export PATH="$HOME/.local/bin:$PATH"
 if ! command -v claude >/dev/null 2>&1; then
   curl -fsSL https://claude.ai/install.sh | bash
 fi
-sudo chown -R "$(id -u):$(id -g)" "$HOME/.claude" 2>/dev/null || true
 
 echo "==> SciGym submodule"
 git submodule update --init --recursive
 
-echo "==> Python env (Python 3.10 + SciGym, via uv)"
-uv python install 3.10
+echo "==> Python env (Python 3.10 from .python-version + SciGym, via uv sync)"
 uv sync
 
 # libroadrunner's wheel links against libpython3.10.so dynamically, which the
