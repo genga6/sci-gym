@@ -21,8 +21,7 @@ fi
 echo "==> SciGym submodule"
 git submodule update --init --recursive
 
-echo "==> Python env (Python 3.10 + SciGym, via uv)"
-uv python install 3.10
+echo "==> Python env (Python 3.10 from .python-version + SciGym, via uv sync)"
 uv sync
 
 # libroadrunner's wheel links against libpython3.10.so dynamically, which the
