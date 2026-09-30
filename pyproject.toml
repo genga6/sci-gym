@@ -1,0 +1,18 @@
+[project]
+name = "sci-gym"
+version = "0.1.0"
+description = "Playground for trying the SciGym benchmark (arXiv:2507.02083) myself or with LLMs"
+readme = "README.md"
+# upstream SciGym pins tellurium 2.2.10 / libroadrunner 2.8.0 and targets Python 3.10
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "scigym",
+    "pygraphviz",
+    "ipykernel",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+scigym = { path = "external/SciGym", editable = true }

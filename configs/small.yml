@@ -1,0 +1,13 @@
+# Same fields as external/SciGym/configs/default.yml; benchmark_dir points at the
+# data downloaded by external/SciGym/data/download.py --save_dir data
+benchmark_dir: data/small/BIOMD0000000027
+
+temperature: 1.0
+max_iterations: 5
+eval_debug_rounds: 5
+test_memorize: false
+# resolved relative to the scigym package (external/SciGym/scigym/)
+experiment_actions_path: prompts/experiment_actions_perturb.md
+customized_functions_path: prompts/customized_functions_sim.md
+
+output_dir: "./results"

@@ -1,0 +1,34 @@
+{
+  "name": "sci-gym",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "containerEnv": {
+    "UV_LINK_MODE": "copy",
+    "UV_PROJECT_ENVIRONMENT": "${containerWorkspaceFolder}/.venv"
+  },
+  // Codespaces: register these as Codespaces secrets and they are injected automatically
+  "secrets": {
+    "VERCEL_AI_GATEWAY_API_KEY": { "description": "Vercel AI Gateway key (run_gateway.py)" }
+  },
+  "mounts": [
+    // keep Claude Code login/settings across container rebuilds
+    "source=sci-gym-claude-config,target=/home/vscode/.claude,type=volume"
+  ],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "charliermarsh.ruff",
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python"
+      }
+    }
+  },
+  "remoteUser": "vscode"
+}
