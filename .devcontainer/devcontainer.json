@@ -2,11 +2,20 @@
   "name": "sci-gym",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    // uv (-> /usr/local/bin); Python 3.10 itself is provisioned by uv from .python-version
+    "ghcr.io/va-h/devcontainers-features/uv:1": {},
+    // Claude Code CLI is installed globally via npm, so it is on PATH for every shell
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" },
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
   },
   "containerEnv": {
     "UV_LINK_MODE": "copy",
     "UV_PROJECT_ENVIRONMENT": "${containerWorkspaceFolder}/.venv"
+  },
+  "remoteEnv": {
+    // ~/.local/bin (uv tool / uv python shims etc.) is not on PATH in non-login shells by default
+    "PATH": "${containerEnv:PATH}:/home/vscode/.local/bin"
   },
   // Codespaces: register these as Codespaces secrets and they are injected automatically
   "secrets": {
