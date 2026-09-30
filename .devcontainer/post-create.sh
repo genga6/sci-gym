@@ -9,9 +9,14 @@ sudo apt-get install -y --no-install-recommends \
   build-essential pkg-config graphviz libgraphviz-dev
 sudo rm -rf /var/lib/apt/lists/*
 
-# uv and Claude Code are installed by devcontainer features (see devcontainer.json).
+echo "==> Claude Code"
 # The ~/.claude volume is created root-owned on first mount -> hand it to the user.
 sudo chown -R "$(id -u):$(id -g)" "$HOME/.claude" 2>/dev/null || true
+# Native installer puts `claude` in ~/.local/bin (added to PATH via remoteEnv).
+export PATH="$HOME/.local/bin:$PATH"
+if ! command -v claude >/dev/null 2>&1; then
+  curl -fsSL https://claude.ai/install.sh | bash
+fi
 
 echo "==> SciGym submodule"
 git submodule update --init --recursive
